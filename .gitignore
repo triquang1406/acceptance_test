@@ -1,0 +1,43 @@
+# --- Secrets / environment ---
+.env
+.env.*
+!.env.example
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+dist/
+*.egg-info/
+.venv/
+venv/
+env/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# --- Node / Cypress ---
+node_modules/
+npm-debug.log*
+yarn-error.log*
+cypress/screenshots/
+cypress/videos/
+cypress/downloads/
+
+# --- Logs / temp ---
+*.log
+*.tmp
+.DS_Store
+Thumbs.db
+
+# --- IDE ---
+.vscode/*
+!.vscode/settings.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.idea/

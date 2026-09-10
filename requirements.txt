@@ -1,0 +1,17 @@
+# Acceptance Test Generation (per paper: arXiv:2504.07244)
+# LLM-powered acceptance test generation: User Story -> Gherkin -> Cypress
+
+# Core
+openai>=1.30.0
+flask>=3.0.0
+requests>=2.31.0
+
+# HTML processing (strip <style>/<script>)
+beautifulsoup4>=4.12.0
+lxml>=5.0.0
+
+# Config / env
+python-dotenv>=1.0.0
+
+# TypeScript syntax validation (Node.js must be available on PATH)
+# Uses @typescript-eslint/parser via node; fallback to a lightweight regex/heuristic check.

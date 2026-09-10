@@ -1,0 +1,80 @@
+name: Generate Acceptance Tests (Test Flow)
+
+# Mirror of the GitHub Action described in Fig. 3 of the paper.
+# Triggered on a new/updated pull request, it:
+#   1. extracts the JIRA issue key + page URLs from the PR description,
+#   2. generates Cypress tests via the Test Flow CLI,
+#   3. commits the generated tests to the PR's source branch,
+#   4. (optionally) runs the generated tests with Cypress.
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  generate-tests:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Check out the PR branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Python dependencies
+        run: pip install -r requirements.txt
+
+      - name: Extract inputs from PR description
+        id: inputs
+        env:
+          PR_BODY: ${{ github.event.pull_request.body }}
+        run: |
+          python scripts/parse_pr_body.py "$PR_BODY" > inputs.env
+          cat inputs.env
+          echo "ISSUE_KEY=$(grep -E '^ISSUE_KEY=' inputs.env | cut -d= -f2-)" >> "$GITHUB_ENV"
+          echo "PAGE_URLS=$(grep -E '^PAGE_URLS=' inputs.env | cut -d= -f2-)" >> "$GITHUB_ENV"
+
+      - name: Generate Cypress tests with Test Flow
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          OPENAI_MODEL: ${{ secrets.OPENAI_MODEL }}
+          JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
+          JIRA_USERNAME: ${{ secrets.JIRA_USERNAME }}
+          JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
+        run: |
+          # Build the --url arguments from the space-separated PAGE_URLS list.
+          URL_ARGS=""
+          for u in $PAGE_URLS; do URL_ARGS="$URL_ARGS --url $u"; done
+          mkdir -p cypress/e2e
+          python cli.py testflow-issue \
+            --issue-key "$ISSUE_KEY" \
+            $URL_ARGS \
+            --predefined-commands "${{ secrets.CYPRESS_COMMANDS }}" \
+            --product-context "${{ secrets.PRODUCT_CONTEXT }}" \
+            -v > cypress/e2e/generated.spec.ts || true
+          cat cypress/e2e/generated.spec.ts
+
+      - name: Commit and push generated tests
+        run: |
+          git config user.name "Test Flow Bot"
+          git config user.email "testflow@example.com"
+          git add cypress/e2e/generated.spec.ts
+          if git diff --cached --quiet; then
+            echo "No generated changes to commit."
+          else
+            git commit -m "Generate acceptance test with Test Flow"
+            git push
+          fi
+
+      # Optional: run the generated tests if a Cypress setup exists in the repo.
+      - name: Run generated Cypress tests
+        if: hashFiles('package.json') != ''
+        run: |
+          npm ci || npm install
+          npx cypress run --spec cypress/e2e/generated.spec.ts

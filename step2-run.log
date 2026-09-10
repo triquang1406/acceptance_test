@@ -1,0 +1,35 @@
+﻿[OK] add-user: 9 scenarios, html 6374 chars, url filled 1x
+[OK] delete-user: 5 scenarios, html 6374 chars, url filled 1x
+[OK] lockout-after-failed-attempts: 8 scenarios, html 2173 chars, url filled 1x
+[OK] patient-edits-own-demographics: 5 scenarios, html 8299 chars, url filled 5x
+[OK] hcp-edits-patient-demographics: 5 scenarios, html 9027 chars, url filled 1x
+[OK] hcp-er-lab-tech-edits-own-demographics: 5 scenarios, html 7165 chars, url filled 5x
+[OK] add-hospital: 6 scenarios, html 8169 chars, url filled 1x
+[OK] delete-hospital: 5 scenarios, html 8169 chars, url filled 1x
+[OK] request-appointment: 6 scenarios, html 7528 chars, url filled 1x
+[OK] view-delete-appointment-requests: 5 scenarios, html 7528 chars, url filled 5x
+[OK] approve-decline-requests: 5 scenarios, html 6519 chars, url filled 5x
+[OK] view-upcoming-appointments: 6 scenarios, html 6519 chars, url filled 6x
+[OK] view-office-visit: 6 scenarios, html 7333 chars, url filled 1x
+[OK] document-office-visit: 7 scenarios, html 17000 chars, url filled 1x
+[OK] enter-health-metrics: 7 scenarios, html 17000 chars, url filled 1x
+[OK] view-health-metrics: 6 scenarios, html 7333 chars, url filled 7x
+[OK] add-prescription: 6 scenarios, html 17000 chars, url filled 1x
+[OK] view-prescriptions: 5 scenarios, html 5545 chars, url filled 5x
+[OK] manage-ndc-drugs: 6 scenarios, html 6340 chars, url filled 1x
+[OK] record-diagnosis: 5 scenarios, html 17000 chars, url filled 1x
+[OK] view-diagnoses: 5 scenarios, html 5447 chars, url filled 5x
+[OK] manage-icd-10-codes: 6 scenarios, html 6732 chars, url filled 1x
+[OK] hcp-edits-patient-demographics-via-edit-patient: 5 scenarios, html 9027 chars, url filled 1x
+[OK] warning-on-switching-patient: 5 scenarios, html 9027 chars, url filled 1x
+[OK] view-access-log: 5 scenarios, html 7327 chars, url filled 1x
+[OK] log-all-events: 9 scenarios, html 7327 chars, url filled 2x
+[OK] email-alerts: 5 scenarios, html 1370 chars, url filled 5x
+[OK] login: 5 scenarios, html 2173 chars, url filled 2x
+[OK] recent-events-on-landing: 7 scenarios, html 7327 chars, url filled 1x
+[OK] change-password: 7 scenarios, html 6374 chars, url filled 1x
+[OK] reset-password: 5 scenarios, html 2173 chars, url filled 5x
+[OK] session-timeout: 7 scenarios, html 2173 chars, url filled 2x
+[OK] ban-after-repeated-lockouts: 6 scenarios, html 2173 chars, url filled 6x
+
+Done: 33 stories -> Cypress in D:\APCS\Acceptance\outputs\autouat
